@@ -1,0 +1,176 @@
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.d-none {
+  display: none;
+}
+
+.hero {
+  background-image: url('../images/background.jpg');
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.navbar .nav-item {
+  list-style: none;
+}
+
+.navbar .nav-link {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.navbar .nav-link:hover {
+  color: burlywood;
+}
+
+.hero-text {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.hero-text h1 {
+  font-size: clamp(2rem, 8vw, 60px);
+  color: white;
+  letter-spacing: clamp(5px, 5vw, 40px);
+  font-weight: 800;
+}
+
+.hero-text p {
+  margin-top: -20px;
+  font-size: clamp(1rem, 5vw, 25px);
+  color: white;
+  letter-spacing: 2vw;
+  font-weight: 700;
+}
+
+.journey-section {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding: 3vw;
+  margin-bottom: 5vw;
+}
+
+.journey-section img {
+  position: absolute;
+  border-radius: 2%;
+  top: -8vw;
+  right: 10%;
+  width: 100%;
+  z-index: 1;
+}
+
+.journey-section .text {
+
+  letter-spacing: 0.5vw;
+  text-align: left;
+  margin-top: 8%;
+  margin-left:35%;
+}
+
+.boredom-section {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding-top:3vw;
+}
+
+.boredom-section .image {
+  margin-left: auto;
+  margin-right: 5%;
+  width: 70%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.boredom-section .text {
+  position: absolute;
+  margin-top: 10%;
+  text-align: left;
+  z-index: 3;
+  color: white;
+  padding: 15px;
+  letter-spacing: 3px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+  .hero-text h1 {
+    letter-spacing: 5vw;
+  }
+
+  .journey-section .image {
+    position: relative;
+    margin:0 auto;
+    width: 100%;
+  }
+
+  .boredom-section .image {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .boredom-section .text {
+    top: auto;
+    left: auto;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-text h1 {
+    letter-spacing: 2vw;
+    font-size: 1rem;
+  }
+
+  .hero-text p {
+    font-size: 1rem;
+    margin-left: 0;
+    letter-spacing: 1px;
+  }
+
+  .journey-section img {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .boredom-section .image {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .boredom-section .text {
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}

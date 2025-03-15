@@ -1,7 +1,19 @@
-body {
-  background-color: black;
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: auto;
+  overflow-x: hidden;
+}
+
+#pages {
+  background-color: black;
+  color:white;
+  min-height:600px;
 }
 
 .d-none {
@@ -9,13 +21,24 @@ body {
 }
 
 .hero {
-  background-image: url('../images/background.jpg');
+  background-image:url('../images/background.jpg');
   background-position: center;
   background-size: cover;
   height: 100vh;
   position: relative;
   z-index: 0;
   overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: rgba(0, 0, 0, 0.7);
+  filter: blur(50px);
 }
 
 .navbar {
@@ -49,7 +72,7 @@ body {
 .hero-text h1 {
   font-size: clamp(2rem, 8vw, 60px);
   color: white;
-  letter-spacing: clamp(5px, 5vw, 40px);
+  letter-spacing:10px;
   font-weight: 800;
 }
 
@@ -61,55 +84,68 @@ body {
   font-weight: 700;
 }
 
+
+//About
+
+.page-section {
+  padding: 4rem 0;
+}
+
+.journey-section, .boredom-section {
+  margin-bottom: 4rem;
+}
+
 .journey-section {
-  position: relative;
-  z-index: 2;
-  color: white;
-  padding: 3vw;
-  margin-bottom: 5vw;
+  margin-top:-150px;
 }
 
-.journey-section img {
-  position: absolute;
-  border-radius: 2%;
-  top: -8vw;
-  right: 10%;
+.journey-text, .boredom-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.journey-text h2, .boredom-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.journey-text p, .boredom-text p {
+  font-size: 1.2rem;
+}
+
+.image img {
   width: 100%;
-  z-index: 1;
-}
-
-.journey-section .text {
-
-  letter-spacing: 0.5vw;
-  text-align: left;
-  margin-top: 8%;
-  margin-left:35%;
-}
-
-.boredom-section {
-  position: relative;
-  z-index: 2;
-  color: white;
-  padding-top:3vw;
-}
-
-.boredom-section .image {
-  margin-left: auto;
-  margin-right: 5%;
-  width: 70%;
-  height: auto;
   border-radius: 10px;
 }
 
-.boredom-section .text {
-  position: absolute;
-  margin-top: 10%;
-  text-align: left;
-  z-index: 3;
-  color: white;
-  padding: 15px;
-  letter-spacing: 3px;
+/* Responsywność */
+@media (max-width: 768px) {
+  .hero-text h1 {
+      font-size: 3rem;
+  }
+
+  .hero-text p {
+      font-size: 1.2rem;
+  }
+
+  .journey-section .row, .boredom-section .row {
+      flex-direction: column;
+  }
+
+  .journey-section .image, .boredom-section .image {
+      order: 2;
+  }
+
+  .journey-section .journey-text, .boredom-section .boredom-text {
+      order: 1;
+      text-align: center;
+      margin-bottom: 2rem;
+  }
 }
+
+
+//footer
 
 footer {
   background-color: black;
@@ -117,60 +153,115 @@ footer {
   text-align: center;
 }
 
-/* MEDIA QUERIES */
-@media (max-width: 768px) {
-  .hero-text h1 {
-    letter-spacing: 5vw;
+//finder
+
+#finder {
+  position:absolute;
+  top:56%;
+  left:35%;
+  min-height: 100vh;
+  display:flex;
+  height:400px;
+  width:500px;
+
+  .finder-text, button {
+    margin-right:25px;
+    text-align: center;
+    h1 {
+      padding:10px;
+      letter-spacing: 5px;
+    }
   }
 
-  .journey-section .image {
-    position: relative;
-    margin:0 auto;
-    width: 100%;
-  }
-
-  .boredom-section .image {
-    width: 90%;
-    margin: 0 auto;
-  }
-
-  .boredom-section .text {
-    top: auto;
-    left: auto;
-    position: relative;
-    white-space: nowrap;
-  }
-
-  .navbar {
-    flex-direction: column;
-    gap: 15px;
+  button {
+    width:300px;
+    margin-top:30px;
   }
 }
 
-@media (max-width: 480px) {
+.grid-container {
+  display: grid;
+  height:400px;
+  width:500px;
+}
+
+.grid-item {
+  background-color: transparent;
+  border: 1px solid white;
+  display: flex;
+  cursor: pointer;
+}
+
+.grid-item.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
   .hero-text h1 {
-    letter-spacing: 2vw;
-    font-size: 1rem;
+      font-size: 3rem;
   }
 
   .hero-text p {
-    font-size: 1rem;
-    margin-left: 0;
-    letter-spacing: 1px;
+      font-size: 1.3rem;
   }
 
-  .journey-section img {
-    width: 80%;
-    margin: 0 auto;
+  .journey-section {
+      padding-top: 80px;
   }
 
-  .boredom-section .image {
-    width: 80%;
-    margin: 0 auto;
-  }
-
-  .boredom-section .text {
-    font-size: 0.8rem;
+  .boredom-text {
     white-space: nowrap;
   }
+
+  .journey-text {
+    white-space: nowrap;
+  }
+
+  .journey-text h2, .boredom-text h2 {
+      font-size: 2rem;
+  }
+
+  .journey-text p, .boredom-text p {
+      font-size: 1.1rem;
+  }
+
+  .image img {
+      max-width: 100%;
+      margin: 0 auto;
+  }
 }
+
+
+@media (max-width: 767px) {
+  .hero-text h1 {
+      font-size: 2.5rem;
+  }
+
+  .hero-text p {
+      font-size: 1.2rem;
+  }
+
+  .journey-section {
+      margin-top: 0;
+      padding-top: 2rem;
+  }
+
+  .journey-section .row, .boredom-section .row {
+      flex-direction: column;
+  }
+
+  .journey-section .image, .boredom-section .image {
+      order: 2;
+  }
+
+  .journey-section .journey-text, .boredom-section .boredom-text {
+      order: 1;
+      margin-bottom: 2rem;
+  }
+
+
+}
+
+
+

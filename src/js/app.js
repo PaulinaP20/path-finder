@@ -16,7 +16,6 @@ const select = {
   }
 };
 
-
 //change the pages
 class Navigation {
   constructor(){
@@ -62,6 +61,7 @@ class PathFinder {
 
     //for the first time
     thisFinder.render();
+    thisFinder.getElements();
   }
 
   render(){
@@ -105,16 +105,9 @@ class PathFinder {
         gridItem.classList.add(select.classNames.selected);
       }
 
-      if (thisFinder.startPoint && thisFinder.startPoint.row === row && thisFinder.startPoint.col === col) {
-        gridItem.classList.add(select.classNames.start);
-      }
-
-      if (thisFinder.endPoint && thisFinder.endPoint.row === row && thisFinder.endPoint.col === col) {
-        gridItem.classList.add(select.classNames.end);
-      }
-
       gridContainer.appendChild(gridItem);
     }
+
     thisFinder.initAction();
   }
 
@@ -125,12 +118,27 @@ class PathFinder {
 
   }
 
+  getElements(){
+    const thisFinder=this;
+
+    thisFinder.submitButton=thisFinder.element.querySelector(select.submitButton);
+    //console.log(thisFinder.submitButton)
+    thisFinder.gridContainer=thisFinder.element.querySelector(select.gridContainer);
+  }
+
   initAction(){
 
     const thisFinder=this;
 
+    thisFinder.submitButton?.replaceWith(thisFinder.submitButton.cloneNode(true));
+    thisFinder.gridContainer?.replaceWith(thisFinder.gridContainer.cloneNode(true));
+
+    // Pobranie nowych referencji po zamianie
+    thisFinder.getElements();
+
     if(thisFinder.step===1){
       //step 1: draw the route
+      console.log('step1');
       thisFinder.element.querySelector(select.submitButton).addEventListener('click', (e)=>{
         e.preventDefault();
         thisFinder.changeStep(2); //switch to step 2
@@ -144,11 +152,18 @@ class PathFinder {
         }
       });
     }
-    else if (thisFinder.step===2){
+    if (thisFinder.step===2){
       //step 2: pick start and finish
+      console.log('step2');
+
       thisFinder.element.querySelector(select.submitButton).addEventListener('click', (e)=> {
         e.preventDefault();
-        thisFinder.changeStep(3); //switch to step 3
+        if(thisFinder.startPoint && thisFinder.endPoint){
+          thisFinder.changeStep(3);
+          thisFinder.findShortestPath();
+        } else {
+          return;
+        }
       });
 
       thisFinder.element.querySelector(select.gridContainer).addEventListener('click', (e)=>{
@@ -159,15 +174,14 @@ class PathFinder {
       });
     }
 
-    else if(thisFinder.step===3){
+    if(thisFinder.step===3){
       // step3: compute the best routes
       thisFinder.element.querySelector(select.submitButton).addEventListener('click', (e)=>{
         e.preventDefault();
-        thisFinder.reset();
         thisFinder.changeStep(1);
-      });
+        thisFinder.reset();
 
-      thisFinder.findShortestPath();
+      });
     }
   }
 
@@ -224,7 +238,12 @@ class PathFinder {
 
   selectStartandEnd(gridItem){
     const thisFinder=this;
+
+    if (!gridItem.classList.contains('grid-item')) return;
+
     console.log('start');
+    console.log(thisFinder.startPoint);
+    console.log(thisFinder.startPoint);
 
     const row = parseInt(gridItem.getAttribute('data-row'));
     const col = parseInt(gridItem.getAttribute('data-col'));
@@ -236,66 +255,61 @@ class PathFinder {
       thisFinder.endPoint={row,col};
       gridItem.classList.add(select.classNames.end);
     }
+
   }
 
   findShortestPath() {
     const thisFinder = this;
-    if (!thisFinder.startPoint || !thisFinder.endPoint) {
-        alert("Please select both a start and an end point.");
-        return;
-    }
 
     thisFinder.grid[thisFinder.startPoint.row][thisFinder.startPoint.col] = true;
     thisFinder.grid[thisFinder.endPoint.row][thisFinder.endPoint.col] = true;
 
-    console.log("Start:", thisFinder.startPoint);
-    console.log("End:", thisFinder.endPoint);
-    console.log("Grid:", thisFinder.grid);
+    //console.log('Start:', thisFinder.startPoint);
+    //console.log('End:', thisFinder.endPoint);
+    //console.log('Grid:', thisFinder.grid);
 
     const queue = [{ row: thisFinder.startPoint.row, col: thisFinder.startPoint.col, path: [] }];
     const visited = new Set();
     visited.add(`${thisFinder.startPoint.row},${thisFinder.startPoint.col}`);
 
     const directions = [
-        [-1, 0],  // góra
-        [1, 0],   // dół
-        [0, -1],  // lewo
-        [0, 1]    // prawo
+      [-1, 0],  // góra
+      [1, 0],   // dół
+      [0, -1],  // lewo
+      [0, 1]    // prawo
     ];
 
     while (queue.length > 0) {
-        const { row, col, path } = queue.shift();
-        const newPath = [...path, { row, col }];
+      const { row, col, path } = queue.shift();
+      const newPath = [...path, { row, col }];
 
-        console.log(`Checking row: ${row}, col: ${col}`);
+      //console.log(`Checking row: ${row}, col: ${col}`);
 
-        if (row === thisFinder.endPoint.row && col === thisFinder.endPoint.col) {
-            console.log("Path found!", newPath);
-            thisFinder.shortestPath = newPath;
-            thisFinder.markShortestPath();
-            return;
-        }
+      if (row === thisFinder.endPoint.row && col === thisFinder.endPoint.col) {
+        //console.log('Path found!', newPath);
+        thisFinder.shortestPath = newPath;
+        thisFinder.markShortestPath();
+        return;
+      }
 
-        for (const [dx, dy] of directions) {
-            const newRow = row + dx;
-            const newCol = col + dy;
-            const key = `${newRow},${newCol}`;
+      for (const [dx, dy] of directions) {
+        const newRow = row + dx;
+        const newCol = col + dy;
+        const key = `${newRow},${newCol}`;
 
-            if (
-                newRow >= 1 && newRow <= 10 &&
+        if (
+          newRow >= 1 && newRow <= 10 &&
                 newCol >= 1 && newCol <= 10 &&
-                thisFinder.grid[newRow]?.[newCol] === true &&
-                !visited.has(key)
-            ) {
-                console.log(`Adding row: ${newRow}, col: ${newCol} to queue`);
-                visited.add(key);
-                queue.push({ row: newRow, col: newCol, path: newPath });
-            }
+                thisFinder.grid[newRow] && thisFinder.grid[newRow][newCol] === true && !visited.has(key)
+        ) {
+          //console.log(`Adding row: ${newRow}, col: ${newCol} to queue`);
+          visited.add(key);
+          queue.push({ row: newRow, col: newCol, path: newPath });
         }
+      }
     }
-
-    console.log("No path found! Check if your path is continuous.");
-    alert("No path found! Check if your path is continuous.");
+    //console.log("No path found! Check if your path is continuous.");
+    alert('No path found! Check if your path is continuous.');
   }
 
   markShortestPath() {
@@ -308,31 +322,35 @@ class PathFinder {
     });
   }
 
-  reset(){
-    const thisFinder=this;
+  reset() {
+    const thisFinder = this;
 
-    thisFinder.startPoint=null;
-    thisFinder.endPoint=null;
-
-    for(let row in thisFinder.grid){
-      for(let col in thisFinder.grid[row]){
-        thisFinder.grid[row][col]=false;
+    for (let row = 1; row <= 10; row++) {
+      for (let col = 1; col <= 10; col++) {
+        thisFinder.grid[row][col] = false;
       }
     }
 
-    const griditems=document.querySelectorAll('.grid-item');
-    griditems.forEach(item=>{
-      item.classList.remove(select.classNames.start, select.classNames.end, select.classNames.selected);
-    })
+    thisFinder.startPoint = null;
+    thisFinder.endPoint = null;
+    thisFinder.shortestPath = [];
 
-    thisFinder.step=1;
 
-    thisFinder.render();
+    const gridItems = thisFinder.element.querySelectorAll('.grid-item');
+  gridItems.forEach((gridItem) => {
+    gridItem.classList.remove(select.classNames.selected);
+    gridItem.classList.remove(select.classNames.start);
+    gridItem.classList.remove(select.classNames.end);
+    gridItem.classList.remove(select.classNames.shortestPath);
+  });
 
-    console.log(thisFinder.step);
-    console.log(thisFinder.grid);
-    console.log(thisFinder.startPoint);
-    console.log(thisFinder.endPoint);
+  //console.log(thisFinder.startPoint)
+  //console.log(thisFinder.endPoint)
+  //console.log(thisFinder.shortestPath)
+  //console.log(thisFinder.grid)
+
+  thisFinder.render();
+
   }
 
 }

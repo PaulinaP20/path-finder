@@ -138,7 +138,6 @@ class PathFinder {
 
     if(thisFinder.step===1){
       //step 1: draw the route
-      console.log('step1');
       thisFinder.element.querySelector(select.submitButton).addEventListener('click', (e)=>{
         e.preventDefault();
         thisFinder.changeStep(2); //switch to step 2
@@ -148,13 +147,11 @@ class PathFinder {
         e.preventDefault();
         if(e.target.classList.contains('grid-item')){
           thisFinder.toggleField(e.target);
-          console.log(e.target);
         }
       });
     }
     if (thisFinder.step===2){
       //step 2: pick start and finish
-      console.log('step2');
 
       thisFinder.element.querySelector(select.submitButton).addEventListener('click', (e)=> {
         e.preventDefault();
@@ -240,10 +237,6 @@ class PathFinder {
     const thisFinder=this;
 
     if (!gridItem.classList.contains('grid-item')) return;
-
-    console.log('start');
-    console.log(thisFinder.startPoint);
-    console.log(thisFinder.startPoint);
 
     const row = parseInt(gridItem.getAttribute('data-row'));
     const col = parseInt(gridItem.getAttribute('data-col'));

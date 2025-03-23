@@ -1,0 +1,65 @@
+//finder
+
+#finder {
+    position: absolute;
+    top:100%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    min-height: 100vh;
+    display: flex;
+    height: 400px;
+    width: 500px;
+
+
+    .finder-text, button {
+      margin-right: 25px;
+      text-align: center;
+
+      h1 {
+        padding: 10px;
+        letter-spacing: 5px;
+        white-space: nowrap;
+      }
+    }
+
+    button {
+      width: 300px;
+      margin-top: 30px;
+    }
+
+    .browser-only-message {
+      display: none;
+    }
+  }
+
+  //Grid
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 45px);
+    grid-template-rows: repeat(10, 45px);
+  }
+
+  .grid-item {
+    background-color: transparent;
+    border: 1px solid white;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .grid-item.selected {
+    background-color: chocolate;
+    color: white;
+  }
+
+  .grid-item.start {
+    background-color: darkgreen;
+  }
+
+  .grid-item.end {
+    background-color: red;
+  }
+
+  .grid-item.shortestPath {
+    background-color: chartreuse;
+  }

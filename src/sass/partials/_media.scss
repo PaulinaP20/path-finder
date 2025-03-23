@@ -1,0 +1,107 @@
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero-text h1 {
+      font-size: 3rem;
+    }
+
+    .hero-text p {
+      font-size: 1.3rem;
+    }
+
+    .journey-section {
+      padding-top: 80px;
+    }
+
+    .boredom-text {
+      white-space: nowrap;
+    }
+
+    .journey-text {
+      white-space: nowrap;
+      margin-top: 50px;
+    }
+
+    .boredom-text {
+      margin-right: 0;
+    }
+
+    .journey-text h2, .boredom-text h2 {
+      font-size: 1.5rem;
+    }
+
+    .journey-text p, .boredom-text p {
+      font-size: 1.1rem;
+    }
+
+    .image img {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .finder {
+      display: none;
+    }
+
+    .browser-only-message {
+      display: block !important;
+      position:fixed;
+      top:80%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      letter-spacing: 8px;
+      text-align: center;
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+  }
+
+
+  @media (max-width: 767px) {
+    .hero-text h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-text p {
+      font-size: 1.2rem;
+    }
+
+    .journey-section {
+      margin-top: 0;
+      padding-top: 2rem;
+    }
+
+    .journey-section .row, .boredom-section .row {
+      flex-direction: column;
+    }
+
+    .journey-section .image, .boredom-section .image {
+      order: 2;
+    }
+
+    .journey-section .journey-text, .boredom-section .boredom-text {
+      margin-left: 0;
+      margin-right: 0;
+      order: 1;
+      margin-bottom: 2rem;
+    }
+
+    .finder {
+      display: none;
+    }
+
+    .browser-only-message {
+      display: block !important;
+      position:fixed;
+      top:80%;
+      left:50%;
+      transform:translate(-50%,-50%);
+      letter-spacing: 5px;
+      text-align: center;
+      font-size: 15px;
+      color: white;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+  }

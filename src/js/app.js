@@ -1,47 +1,66 @@
 import PathFinder from "./PathFinder.js";
-import Navigation from "./Navigation.js";
 import { select } from "./setting.js";
 
 const app = {
-  navigation:null,
-
-  pathFinder:null,
 
   initPages: function(){
 
-    this.navigation=new Navigation();
+    const thisApp=this;
 
-    const hash=window.location.hash.replace('#/','') || select.homePage;
+        //wszystkie strony
+    thisApp.sections=document.querySelectorAll(select.allPages);
+    //console.log(thisApp.sections);
 
-    this.navigation.showSection(hash);
+      //wszystkie btn
+    thisApp.allButton=document.querySelectorAll(select.navButton)
 
-    document.querySelectorAll(select.navButton).forEach(link=>{
-      link.addEventListener('click', (event)=>this.handleNavClick(event));
-    });
+    const idFromHash=window.location.hash.replace('#/','');
 
-    window.addEventListener('hashchange', ()=>this.handleHashChange());
+    //console.log(idFromHash)
 
+    let pageMatchingHash=thisApp.sections[0].id;
+
+    //console.log(pageMatchingHash);
+
+
+    for(let section of thisApp.sections){
+      if(section.id===idFromHash){
+          pageMatchingHash=section.id;
+          break
+      }
+    }
+
+    thisApp.activatePage(pageMatchingHash);
+
+    for (let button of thisApp.allButton){
+      button.addEventListener('click', function(event){
+          const clickedElement=this;
+          event.preventDefault();
+
+          const id=clickedElement.getAttribute('href').replace('#','');
+
+          thisApp.activatePage(id);
+
+          window.location.hash='#/'+id;
+      })
+    }
+
+    window.addEventListener('hashchange', function(){
+      thisApp.initPages();
+    })
   },
 
-  handleNavClick(event){
-    event.preventDefault();
-    const sectionId=event.target.getAttribute('data-section').replace('#/','');
-    //console.log(sectionId);
+  activatePage:function(sectionId){
+    const thisApp=this;
 
-    window.location.hash=`#/${sectionId}`;
+    for(let section of thisApp.sections){
+      section.classList.toggle(select.classNames.noActivePage, section.id!==sectionId);
+    }
 
-    this.navigation.showSection(sectionId);
-  },
-
-  handleHashChange(){
-    const hash = window.location.hash ? window.location.hash.replace('#/', '') : select.homePage.replace('#/', '');
-
-    this.navigation.showSection(hash);
   },
 
   initPathFinder:function(){
     this.pathFinder=new PathFinder(document.querySelector(select.finderPage));
-    //console.log(select.finderPage);
   },
 
   init() {

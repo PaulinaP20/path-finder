@@ -11,6 +11,14 @@ class PathFinder {
       thisFinder.startPoint=null;
       thisFinder.endPoint=null;
       thisFinder.shortestPath=[];
+      thisFinder.highlightedCells=[];
+
+      thisFinder.directions = [
+        [-1, 0], // up
+        [1, 0],  // down
+        [0, -1], // left
+        [0, 1]   // right
+      ];
 
       //create grid with information about each field
       for(let row=1;row<=10;row++){
@@ -49,7 +57,7 @@ class PathFinder {
       thisFinder.element.querySelector('.btn-warning').textContent = pageData.btnText;
 
       //generate 100 fields for grid
-      const gridContainer = this.element.querySelector('.grid-container');
+      const gridContainer = thisFinder.element.querySelector('.grid-container');
       gridContainer.innerHTML='';
 
       for(let i=0;i<100; i++){
@@ -78,6 +86,12 @@ class PathFinder {
       thisFinder.step=newStep;
       thisFinder.render();
 
+      if (newStep === 2) {
+        thisFinder.getElements();
+        thisFinder.gridItems.forEach(cell => {
+          cell.classList.remove(select.classNames.highlighted);
+        });
+      }
     }
 
     getElements(){
@@ -86,6 +100,8 @@ class PathFinder {
       thisFinder.submitButton=thisFinder.element.querySelector(select.submitButton);
       //console.log(thisFinder.submitButton)
       thisFinder.gridContainer=thisFinder.element.querySelector(select.gridContainer);
+
+      thisFinder.gridItems=thisFinder.element.querySelectorAll('.grid-item');
     }
 
     initAction(){
@@ -142,6 +158,11 @@ class PathFinder {
 
         });
       }
+
+      thisFinder.element.querySelector(select.gridContainer).addEventListener('mouseover', (e) => {
+        if (e.target.classList.contains('grid-item')) {
+          thisFinder.highlightAvailableMoves();
+        }});
     }
 
     toggleField(gridItem){
@@ -153,9 +174,7 @@ class PathFinder {
 
       if(thisFinder.grid[row][col]){
         thisFinder.grid[row][col]=false;
-        gridItem.classList.remove(select.classNames.selected);
       } else {
-
         //first click, allow selection
         if(thisFinder.step===1 && Object.values(thisFinder.grid).every(row=>Object.values(row).every(cell=>!cell))){
           thisFinder.grid[row][col]=true;
@@ -173,26 +192,36 @@ class PathFinder {
       }
     }
 
+    highlightAvailableMoves(){
+        const thisFinder=this;
+
+        if (thisFinder.step === 2 || thisFinder.step===3) return;
+
+        thisFinder.gridItems.forEach(cell=>{
+            const row=parseInt(cell.getAttribute('data-row'))
+            const col=parseInt(cell.getAttribute('data-col'))
+
+            if(!thisFinder.grid[row][col] && thisFinder.checkAdjacent(row,col)){
+                cell.classList.add(select.classNames.highlighted);
+            } else {
+                cell.classList.remove(select.classNames.highlighted);
+            }
+        });
+    }
+
     checkAdjacent(row,col){
       const thisFinder=this;
 
-      const directions= [
-        [-1,0], //up
-        [1,0],//down
-        [0,-1],//left
-        [0,1]//right
-      ];
-
-      for (const [dx,dy] of directions){
+      for (const [dx,dy] of thisFinder.directions){
         const newRow=row+dx;
         const newCol=col+dy;
-
+        //console.log(newRow,newCol)
         if (newRow>=1 && newRow <=10 && newCol>=1 && newCol<=10 && thisFinder.grid[newRow][newCol]){
-          return true; //if new clicked field is adjacent
+            return true;
         }
       }
-
-      return false; //if new clicked is not adjacent
+      return false;
+       //if new clicked is not adjacent
     }
 
     selectStartandEnd(gridItem){
@@ -227,13 +256,6 @@ class PathFinder {
       const visited = new Set();
       visited.add(`${thisFinder.startPoint.row},${thisFinder.startPoint.col}`);
 
-      const directions = [
-        [-1, 0],  // góra
-        [1, 0],   // dół
-        [0, -1],  // lewo
-        [0, 1]    // prawo
-      ];
-
       while (queue.length > 0) {
         const { row, col, path } = queue.shift();
         const newPath = [...path, { row, col }];
@@ -247,7 +269,7 @@ class PathFinder {
           return;
         }
 
-        for (const [dx, dy] of directions) {
+        for (const [dx, dy] of thisFinder.directions) {
           const newRow = row + dx;
           const newCol = col + dy;
           const key = `${newRow},${newCol}`;
@@ -257,14 +279,12 @@ class PathFinder {
                   newCol >= 1 && newCol <= 10 &&
                   thisFinder.grid[newRow] && thisFinder.grid[newRow][newCol] === true && !visited.has(key)
           ) {
-            //console.log(`Adding row: ${newRow}, col: ${newCol} to queue`);
             visited.add(key);
             queue.push({ row: newRow, col: newCol, path: newPath });
           }
         }
       }
-      //console.log("No path found! Check if your path is continuous.");
-      alert('No path found! Check if your path is continuous.');
+      alert('No path found! Check if your path is continuous and try again.');
     }
 
     markShortestPath() {

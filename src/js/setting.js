@@ -11,6 +11,7 @@ export const select = {
       selected:'selected',
       start:'start',
       end:'end',
-      shortestPath:'shortestPath'
+      shortestPath:'shortestPath',
+      highlighted:'highlighted'
     }
   };

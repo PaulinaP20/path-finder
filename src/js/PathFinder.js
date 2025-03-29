@@ -360,11 +360,6 @@ class PathFinder {
       modal.remove();
     }
 
-    //console.log(thisFinder.startPoint)
-    //console.log(thisFinder.endPoint)
-    //console.log(thisFinder.shortestPath)
-    //console.log(thisFinder.grid)
-
     thisFinder.render();
   }
 }

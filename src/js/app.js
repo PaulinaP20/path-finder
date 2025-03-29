@@ -1,5 +1,5 @@
-import PathFinder from "./PathFinder.js";
-import { select } from "./setting.js";
+import PathFinder from './PathFinder.js';
+import { select } from './setting.js';
 
 const app = {
 
@@ -7,12 +7,12 @@ const app = {
 
     const thisApp=this;
 
-        //wszystkie strony
+    //wszystkie strony
     thisApp.sections=document.querySelectorAll(select.allPages);
     //console.log(thisApp.sections);
 
-      //wszystkie btn
-    thisApp.allButton=document.querySelectorAll(select.navButton)
+    //wszystkie btn
+    thisApp.allButton=document.querySelectorAll(select.navButton);
 
     const idFromHash=window.location.hash.replace('#/','');
 
@@ -25,8 +25,8 @@ const app = {
 
     for(let section of thisApp.sections){
       if(section.id===idFromHash){
-          pageMatchingHash=section.id;
-          break
+        pageMatchingHash=section.id;
+        break;
       }
     }
 
@@ -34,20 +34,20 @@ const app = {
 
     for (let button of thisApp.allButton){
       button.addEventListener('click', function(event){
-          const clickedElement=this;
-          event.preventDefault();
+        const clickedElement=this;
+        event.preventDefault();
 
-          const id=clickedElement.getAttribute('href').replace('#','');
+        const id=clickedElement.getAttribute('href').replace('#','');
 
-          thisApp.activatePage(id);
+        thisApp.activatePage(id);
 
-          window.location.hash='#/'+id;
-      })
+        window.location.hash='#/'+id;
+      });
     }
 
     window.addEventListener('hashchange', function(){
       thisApp.initPages();
-    })
+    });
   },
 
   activatePage:function(sectionId){

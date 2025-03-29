@@ -1,116 +1,120 @@
 //finder
 
 #finder {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  min-height: 100vh;
+  display: flex;
+  height: 400px;
+  width: 500px;
+
+
+  .finder-text, button {
+    margin-right: 25px;
+    text-align: center;
+
+    h1 {
+      padding: 10px;
+      letter-spacing: 5px;
+      white-space: nowrap;
+    }
+  }
+
+  button {
+    width: 300px;
+    margin-top: 30px;
+  }
+
+  .browser-only-message {
+    display: none;
+  }
+}
+
+//Grid
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 45px);
+  grid-template-rows: repeat(10, 45px);
+}
+
+.grid-item {
+  background-color: transparent;
+  border: 1px solid white;
+  display: flex;
+  cursor: pointer;
+}
+
+.grid-item.selected {
+  background-color: chocolate;
+  color: white;
+}
+
+.grid-item.start {
+  background-color: darkgreen;
+}
+
+.grid-item.end {
+  background-color: red;
+}
+
+.grid-item.shortestPath {
+  background-color: chartreuse;
+}
+
+.grid-item.highlighted {
+  background-color: rgba(92, 129, 231, 0.2);
+  transition: background-color 0.2s ease-in-out;
+}
+
+
+//modal
+
+#summaryModal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+#summary {
+  background-color: white;
+  color: black;
+  padding: 30px;
+  text-align: left;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+  position: relative;
+  font-size: 12px;
+
+  #textModal h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  #textModal h3 {
+    font-size: 22px;
+  }
+
+  #closeModal {
     position: absolute;
-    top:100%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    min-height: 100vh;
-    display: flex;
-    height: 400px;
-    width: 500px;
-
-
-    .finder-text, button {
-      margin-right: 25px;
-      text-align: center;
-
-      h1 {
-        padding: 10px;
-        letter-spacing: 5px;
-        white-space: nowrap;
-      }
-    }
-
-    button {
-      width: 300px;
-      margin-top: 30px;
-    }
-
-    .browser-only-message {
-      display: none;
-    }
-  }
-
-  //Grid
-
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(10, 45px);
-    grid-template-rows: repeat(10, 45px);
-  }
-
-  .grid-item {
-    background-color: transparent;
-    border: 1px solid white;
-    display: flex;
-    cursor: pointer;
-  }
-
-  .grid-item.selected {
-    background-color: chocolate;
-    color: white;
-  }
-
-  .grid-item.start {
-    background-color: darkgreen;
-  }
-
-  .grid-item.end {
-    background-color: red;
-  }
-
-  .grid-item.shortestPath {
-    background-color: chartreuse;
-  }
-
-  .grid-item.highlighted {
-    background-color: rgba(92, 129, 231, 0.2);
-    transition: background-color 0.2s ease-in-out;
-  }
-
-
-  //modal
-
-  .modal-overlay {
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background: rgba(0,0,0,0.7);
-    align-items:center;
-    justify-content:center;
-  }
-
-  #summary {
+    right: 10px;
+    top: 5px;
     background-color: white;
-    color:black;
-    padding:30px;
-    text-align:left;
-    box-shadow:0px 0px 10px rgba(0,0,0,0.2);
-    position:relative;
-    font-size:12px;
+    border: none;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
 
-    #textModal h2 {
-      text-align: center;
-      margin-bottom:30px;
-    }
-
-    #textModal h3 {
-      font-size:22px;
-    }
-
-    #closeModal {
-      position:absolute;
-      right:10px;
-      top:5px;
-      background-color: white;
-      border:none;
-      color:black;
-      font-weight: bold;
-      font-size:20px;
-
-    }
   }
+
+  span {
+    color: red;
+  }
+}
